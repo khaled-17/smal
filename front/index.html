@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Displaying JSON Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button onclick="getTasks()">Get Tasks</button>
+        <button onclick="getThehome()">Get Homepage</button>
+        <button onclick="getName()">Get Names</button>
+
+        <div id="data-container">
+            <!-- This part will be replaced with data from the server -->
+        </div>
+    </div>
+
+    <script>
+        function fetchData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const dataContainer = document.getElementById('data-container');
+                    dataContainer.innerHTML = '';
+
+                    data.forEach(item => {
+                        const itemElement = document.createElement('p');
+                        itemElement.textContent = item.item;
+                        dataContainer.appendChild(itemElement);
+                    });
+                })
+                .catch(error => console.error('An error occurred while fetching data', error));
+        }
+
+        function getTasks() {
+            fetchData('https://todo.egysnakes.com/api/v2/tasks');
+        }
+
+        function getThehome() {
+            fetchData('https://todo.egysnakes.com/api/v2/');
+        }
+
+        function getName() {
+            fetchData('https://todo.egysnakes.com/api/v2/name');
+        }
+    </script>
+</body>
+</html>
+
